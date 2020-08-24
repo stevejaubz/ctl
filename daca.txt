@@ -1,0 +1,66 @@
+Title: DACA "Flowchart"
+Author: Aubrie Souza
+Before: <link rel="stylesheet" type="text/css" href="https://suffolklitlab.org/howto/qna/style/style.css">
+<div id="icon" style="background-size: 110px 99px;background-image: url('https://suffolklitlab.org/howto/qna/images/maxheadroom.gif');"></div>
+<h2 style="text-align:center;">DACA "Flowchart"</h2>
+<p><b>This is a <a href="https://www.codingthelaw.org/#mission">class project</a>. You should not rely on it as a source of legal information!</b></p>
+<p>Answer the following questions to see if someone qualifies for DACA.</p>
+
+Q(81_birthday): Is their birthday on or after June 19, 1981? 
+A: Yes 
+	Q(affirm_sixteen): Did they enter the United States before their sixteenth birthday? 
+	A: Yes 
+		Q(enter_sixteen): Were they in the United States on June 15, 2012?
+		A: Yes
+			Q(continuous): Have they continuously resided in the United States since June 15, 2007? 
+			A: Yes 
+				Q(out_status): Were they out of status on June 12, 2012?
+				A: Yes
+					Q(felony): Have they been convicted of a felony or significant misdemeanor? 
+					A: Yes 
+						Q(felon):GOTO:2 
+					A: No
+						Q(multi_misd): Have they been convicted of more than one misdemeanor? 
+						A: Yes 
+							Q(spree):GOTO:2	
+						A: No
+							Q(no_spree): Do they pose a threat to national security or public safety? 
+							A: Yes
+								Q(threat):GOTO:2
+							A: No
+								Q(school):Are they currently in school?
+								A: Yes
+									Q(fifteen_up):Are they 15 or older? 
+									A: Yes
+										Q(yes_fifteen):GOTO:4
+									A: No 
+										Q(removal_process): Are they currently in removal proceedings or have a final removal or VD order? 
+										A:Yes
+											Q(removal_vd):GOTO:4
+										A:No
+											Q(in_removal):GOTO:3
+
+								A:No
+									Q(HS_GED): Do they have a HS diploma or GED?
+									A: Yes
+										Q(diploma):GOTO:fifteen_up
+									A: No
+										Q(vet): Are they an honorably discharged veteran of the Coast Guard or Armed Forces of the United States?
+										A: Yes
+											Q(yes_vet):GOTO:4 
+										A: No
+											Q(no_at_least_one):GOTO:3
+				A: No 
+					Q(had_status):GOTO:2
+			A: No
+				Q(not_continuous):GOTO:2
+		A: No 
+			Q(after_sixteen):GOTO:2
+	A: No 
+		Q(decline_sixteen):GOTO:2
+A: No 
+	Q(before_81):GOTO:2
+
+Q(2): Unfortunately, they are ineligible. 
+Q(3): They should wait. 
+Q(4): They are eligible. 
