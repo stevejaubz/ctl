@@ -1,0 +1,105 @@
+Title: Montana Indigency Calculator
+Author: Aubrie Souza
+Before: <link rel="stylesheet" type="text/css" href="https://suffolklitlab.org/howto/qna/style/style.css">
+<div id="icon" style="background-size: 110px 99px;background-image: url('https://suffolklitlab.org/howto/qna/images/maxheadroom.gif');"></div>
+<h2 style="text-align:center;">Montana Indigency Calculator</h2>
+<p><b>This is a <a href="https://www.codingthelaw.org/level/2/#mission_p2">class project</a>. You should not rely on it as a source of legal information. It is likely incomplete.</b></p>
+<p>Answer the following questions to see if you qualify for an appointment of counsel or fee waiver.</p>
+After:
+<script>
+function fedpov(house,income,percentage){
+	// Determines if your income is less than or equal to
+	// a percentage of the 2020 federal poverty guidelines
+	// for the contiguous United States. See
+	// https://aspe.hhs.gov/poverty-guidelines
+
+		var line = NaN;
+
+		if (house == 1) {
+			line = 12760;
+		} else if (house == 2) {
+			line = 17240;
+		} else if (house == 3) {
+			line = 21720;
+		} else if (house == 4) {
+			line = 26200;
+		} else if (house == 5) {
+			line = 30680;
+		} else if (house == 6) {
+			line = 35160;
+		} else if (house == 7) {
+			line = 39640;
+		} else if (house == 8) {
+			line = 44120;
+		} else if (house > 8) {
+			line = 44120 + (house-8)*4480;
+		}
+
+		if (income <= (line*(percentage/100))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
+
+Q(house): How many people are in your household? Include yourself in the count.
+X:number
+	Q(income_input): What is your gross household income? 
+	X[javascript:if(fedpov(getvar('house'),getvar('income_input'),133)){goto('eligible')} else {goto('substantial_hardship')}]:number
+	A: Tap for help to understand what is included in your gross household income
+		Q(help_income):GOTO:income_definition
+A: Tap for help to define your household.
+	Q(tap_help):GOTO:household_definition
+
+
+Q(income_definition): “Income” includes, but is not limited to, all household wages; business or self-employment income; unemployment, social security or workers' compensation benefits; Supplemental Nutrition Assistance Program (SNAP) benefits; government assistance payments; dividends; pension, retirement, or interest income; and rental income. Admin. R. Mont. 2.69.203
+<br><br>
+Child support, the percentage of veteran's benefits related to disability, and student financial aid are excluded from income. 
+A:Ok, got it. Go back to enter my gross household income. 
+	Q(return_to_income):GOTO:income_input
+
+
+Q(household_definition):“Household ” means an association of persons who live in the same dwelling, sharing its furnishings, facilities, accommodations, and expenses. The term does not include lessees, tenants, or roomers and boarders on contract.
+Mont. Code Ann. § 15-30-2337
+A: Ok, got it. Go back to enter my household count.
+	Q(3.1):GOTO:house
+
+Q(substantial_hardship): Would the cost of competent private counsel put a substantial hardship to you, the applicant, or members of the household?
+A: Yes 
+	Q(yes_hardship):GOTO:eligible
+A: No
+	Q(no_hardship):GOTO:ineligible
+
+Q(eligible): You are eligible for assigned counsel
+A:Great, tell me about potential repayment fees to the applicant. 
+	Q(repayment):GOTO:costs 
+
+Q(ineligible): Unfortunately, you are not eligible for Assigned Counsel 
+
+Q(costs): Has the applicant been charged with one or more felony or one or more misdemeanor?
+A: One or more felony charge. 
+	Q(more_felony):GOTO:plea_felony
+A: One or more misdemeanor charge.  
+	Q(more_misdemeanor):GOTO:plea_misdemeanor
+
+Q(plea_felony): How is the applicant pleading? 
+A: The applicant is pleading guilty to the felony charge(s). 
+	Q(guilty_felony):GOTO:cost_felony
+A: The applicant is pleading not guilty to the felony charge(s). 
+	Q(innocent_felony):GOTO:innocent
+
+Q(plea_misdemeanor): How is the applicant pleading? 
+A: The applicant is pleading guilty to the misdemeanor charge(s). 
+	Q(guilty_misdemeanor):GOTO:cost_misdemeanor
+A: The applicant is pleading not guilty to the misdemeanor charge(s). 
+	Q(innocent_misdemeanor):GOTO:innocent
+
+Q(innocent): If the case goes to trial and the applicant is convicted, the applicant shall pay the costs incurred by the office of state public defender for providing the defendant with counsel in the criminal trial. The court shall determine whether a convicted defendant should pay this costs.  
+
+Q(cost_felony): If the applicant enters a plea of guilty to one or more felony the potential charges is $800. The court shall determine whether a convicted defendant should pay this costs. 
+
+Q(cost_misdemeanor):If the applicant enters a plea of guilty to one or more misdemeanors the potential charges is $250. The court shall determine whether a convicted defendant should pay this costs. 
+
+
+
